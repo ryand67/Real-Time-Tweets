@@ -12,6 +12,10 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
+app.get('/', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../', 'client', 'index.html'))
+})
+
 const rulesURL = 'https://api.twitter.com/2/tweets/search/stream/rules';
 const streamURL = 'https://api.twitter.com/2/tweets/search/stream?tweet.fields=public_metrics&expansions=author_id';
 
@@ -84,6 +88,10 @@ const streamTweets = () => {
         }
     })
 }
+
+io.on('connection', () => {
+    console.log('Client connected...');
+})
 
 // (async () => {
 //     let currentRules;
